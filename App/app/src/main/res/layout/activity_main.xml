@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fireflower"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -25,14 +26,14 @@
 
         <Button
             android:id="@+id/buttonHelp"
-            android:layout_width="wrap_content"
+            android:layout_width="111dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/helpButton" />
 
         <Button
             android:id="@+id/buttonExit"
-            android:layout_width="wrap_content"
+            android:layout_width="111dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/exitButton" />
@@ -49,17 +50,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="155dp"
+            android:layout_width="128dp"
             android:layout_height="match_parent"
             android:src="@drawable/connect4image" />
 
         <TextView
             android:id="@+id/messageMainPage"
-            android:layout_width="wrap_content"
+            android:layout_width="190dp"
             android:layout_height="match_parent"
             android:text="@string/messageMainPage"
-            android:textColor="#FFD000"
-            android:textSize="22dp"
+            android:textColor="#000000"
+            android:textSize="32dp"
             android:typeface="serif" />
     </LinearLayout>
 

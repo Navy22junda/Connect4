@@ -6,6 +6,7 @@
     <string name="helpButton">Help</string>
     <string name="exitButton">Exit</string>
 
-    <string name="messageMainPage">PRINCIPAL</string>
-
+    <string name="messageMainPage">Main Page</string>
+    <string name="messageHelpPage">Help</string>
+    <string name="messageConfiguration">Configuration</string>
 </resources>
