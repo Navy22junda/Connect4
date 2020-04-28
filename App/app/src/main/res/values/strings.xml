@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Connect4App</string>
+
+    <!-- Missatges primeara activity -->
+    <string name="startButton">Start Game</string>
+    <string name="helpButton">Help</string>
+    <string name="exitButton">Exit</string>
+
+    <string name="messageMainPage">PRINCIPAL</string>
+
 </resources>
