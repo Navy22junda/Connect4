@@ -9,4 +9,11 @@
     <string name="messageMainPage">Main Page</string>
     <string name="messageHelpPage">Help</string>
     <string name="messageConfiguration">Configuration</string>
+
+    <!-- Missatges activity help -->
+    <string name="instructions">L objectiu de Connecta 4 és alinear 4 fitxes sobre
+        un tauler. Per torns, els jugadors han d introduir una fitxa a la columna que prefereixin
+        (sempre que no estigui completa) i aquesta caurà a la posició més baixa.
+        Guanya la partida el primer que aconsegueixi alinear 4 fitxes
+        consecutives d un mateix color en horitzontal, vertical o diagonal.</string>
 </resources>
