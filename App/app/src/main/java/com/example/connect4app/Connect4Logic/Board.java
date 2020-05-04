@@ -1,4 +1,4 @@
-package com.example.connect4app;
+package com.example.connect4app.Connect4Logic;
 
 public class Board {
     private final int size;
@@ -16,7 +16,7 @@ public class Board {
     public Position occupyCell(int column, Player player){
 
         if(hasValidMoves()){
-
+            cells[firstEmptyRow(column)][column].jugador = player.id;
             return new Position(firstEmptyRow(column),column);
         }
 

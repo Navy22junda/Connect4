@@ -1,4 +1,4 @@
-package com.example.connect4app;
+package com.example.connect4app.Connect4Logic;
 
 public class Direction {
 
