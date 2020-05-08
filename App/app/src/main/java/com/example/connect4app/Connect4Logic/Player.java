@@ -1,5 +1,7 @@
 package com.example.connect4app.Connect4Logic;
 
+import androidx.annotation.Nullable;
+
 class Player {
 
 

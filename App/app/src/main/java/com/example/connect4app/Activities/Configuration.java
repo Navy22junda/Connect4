@@ -30,8 +30,6 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
         Button btnStart = (Button)findViewById(R.id.buttonStart);
         btnStart.setOnClickListener(this);
 
-
-
     }
 
 

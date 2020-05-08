@@ -1,6 +1,6 @@
 package com.example.connect4app.Connect4Logic;
 
-class Cell {
+public class Cell {
 
     boolean ocupat;
     int jugador;

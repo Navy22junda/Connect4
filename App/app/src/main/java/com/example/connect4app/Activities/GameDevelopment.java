@@ -5,15 +5,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.connect4app.Connect4Logic.Board;
+import com.example.connect4app.Connect4Logic.Cell;
+import com.example.connect4app.Connect4Logic.Game;
+import com.example.connect4app.Connect4Logic.Position;
 import com.example.connect4app.R;
 
-public class GameDevelopment extends AppCompatActivity implements View.OnClickListener, GridView.OnItemClickListener{
+import java.util.concurrent.TimeUnit;
+
+public class GameDevelopment extends AppCompatActivity implements GridView.OnItemClickListener{
+
+    GridView gridView;
+    Game game;
+    static int sizef = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,22 +41,31 @@ public class GameDevelopment extends AppCompatActivity implements View.OnClickLi
             sizeGrill = 49;
         }
         ImageAdapter.setData(sizeGrill);
+        ImageAdapterInteractive.setData((Integer.parseInt(size)));
+        sizef = (Integer.parseInt(size));
 
-        Button button = (Button)findViewById(R.id.temporalButton);
-        button.setOnClickListener(this);
-
-        GridView gridView = (GridView)findViewById(R.id.grid);
+        //GridView de la parrilla
+        gridView = (GridView)findViewById(R.id.grid);
         gridView.setNumColumns((Integer.parseInt(size)));
         gridView.setAdapter(new ImageAdapter(this));
 
-        gridView.setOnItemClickListener(this);
+        //GridView interactuable
+        GridView interactive = (GridView)findViewById(R.id.interactiveGrid);
+        interactive.setNumColumns((Integer.parseInt(size)));
+        interactive.setAdapter(new ImageAdapterInteractive(this));
 
-    }
+        //Inicialitzar celles
+        Cell[][] cell = new Cell[Integer.parseInt(size)][Integer.parseInt(size)];
+        for (int i = 0; i < (Integer.parseInt(size)); i++){
+            for (int j = 0; j < (Integer.parseInt(size)); j++){
+                cell[i][j] = new Cell(false, 0);
+            }
+        }
 
-    @Override
-    public void onClick(View v) {
-        Intent in = new Intent(this, Results.class);
-        startActivity(in);
+        game = new Game(new Board(Integer.parseInt(size), cell), (Integer.parseInt(size)), 100000, 0);
+        interactive.setOnItemClickListener(this);
+
+
     }
 
     @Override
@@ -59,8 +78,35 @@ public class GameDevelopment extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent in = new Intent(this, Results.class);
-        startActivity(in);
+        Position pos = game.drop(position);
+        if(game.checkForFinish()){
+            Intent intent = new Intent(this, Results.class);
+            startActivity(intent);
+        }
+        int index = calculatePos(pos.getRow(), pos.getColumn());
+        View curentTile = gridView.getChildAt(index);
+        curentTile.setBackgroundResource(R.drawable.fitxaroja);
+        game.toggleTurn();
+
+        //JUGADA MAQUINA
+        pos = game.playOpponent();
+        if(game.checkForFinish()){
+            Intent intent = new Intent(this, Results.class);
+            startActivity(intent);
+        }
+        index = calculatePos(pos.getRow(), pos.getColumn());
+        curentTile = gridView.getChildAt(index);
+        curentTile.setBackgroundResource(R.drawable.fitxagroga);
+        game.toggleTurn();
+
+
+
+    }
+
+    private int calculatePos(int row, int column){
+        int actualrow =  sizef - row;
+        int actualcolumn = sizef - column;
+        return (actualrow * sizef) - actualcolumn;
     }
 }
 
