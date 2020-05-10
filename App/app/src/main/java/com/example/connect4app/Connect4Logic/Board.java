@@ -49,58 +49,46 @@ public class Board {
 
     public int maxConnected(Position position){
         int maxConnected = 0;
-        int connected = 1;
         Player player = new Player(cells[position.getRow()][position.getColumn()].jugador);
-        int maxNormal = maxConnectedNormal(maxConnected, connected, player, position);
-        int maxReverse = maxConnectedReverse(maxConnected, connected, player, position);
-        if(maxNormal > maxReverse){
-            return maxNormal;
-        }else {
-            return maxReverse;
-        }
-    }
 
-    private int maxConnectedNormal(int maxConnected, int connected, Player player, Position position){
-
-        for (int i = 0; i < Direction.ALL.length; i++){
-            Position current = position;
-            connected = 1;
-            while (current.move(Direction.ALL[i]).getColumn() < size && current.move(Direction.ALL[i]).getRow() < size &&
-                    current.move(Direction.ALL[i]).getColumn() > 0 && current.move(Direction.ALL[i]).getRow() > 0){
-
-                current = current.move(Direction.ALL[i]);
-                if(cells[current.getRow()][current.getColumn()].jugador == player.id){
-                    connected++;
-                }else {
-                    break;
-                }
-            }
-            if(maxConnected < connected){
+        for (int i = 0; i < Direction.ALL.length; i++) {
+            int connected = 1;
+            connected += maxConnectedNormal(position, i, player);
+            connected += maxConnectedReverse(position, i, player);
+            if(maxConnected < connected) {
                 maxConnected = connected;
             }
         }
         return maxConnected;
     }
 
-    private int maxConnectedReverse(int maxConnected, int connected, Player player, Position position){
+    private int maxConnectedNormal(Position currentNormal, int i, Player player) {
+        int connected = 0;
+        while (currentNormal.move(Direction.ALL[i]).getColumn() < size && currentNormal.move(Direction.ALL[i]).getRow() < size &&
+                currentNormal.move(Direction.ALL[i]).getColumn() >= 0 && currentNormal.move(Direction.ALL[i]).getRow() >= 0) {
 
-        for (int i = 0; i < Direction.ALL.length; i++){
-            Position current = position;
-            connected = 1;
-            while (current.move(Direction.ALL[i].invert()).getColumn() < size && current.move(Direction.ALL[i].invert()).getRow() < size &&
-                    current.move(Direction.ALL[i].invert()).getColumn() > 0 && current.move(Direction.ALL[i].invert()).getRow() > 0){
-
-                current = current.move(Direction.ALL[i].invert());
-                if(cells[current.getRow()][current.getColumn()].jugador == player.id){
-                    connected++;
-                }else {
-                    break;
-                }
-            }
-            if(maxConnected < connected){
-                maxConnected = connected;
+            currentNormal = currentNormal.move(Direction.ALL[i]);
+            if(cells[currentNormal.getRow()][currentNormal.getColumn()].jugador == player.id) {
+                connected++;
+            }else {
+                break;
             }
         }
-        return maxConnected;
+        return connected;
+    }
+
+    private int maxConnectedReverse(Position currentReverse, int i,Player player){
+        int connected = 0;
+        while (currentReverse.move(Direction.ALL[i].invert()).getColumn() < size && currentReverse.move(Direction.ALL[i].invert()).getRow() < size &&
+                currentReverse.move(Direction.ALL[i].invert()).getColumn() >= 0 && currentReverse.move(Direction.ALL[i].invert()).getRow() >= 0){
+            currentReverse = currentReverse.move(Direction.ALL[i].invert());
+
+            if(cells[currentReverse.getRow()][currentReverse.getColumn()].jugador == player.id) {
+                connected++;
+            }else {
+                break;
+            }
+        }
+        return connected;
     }
 }

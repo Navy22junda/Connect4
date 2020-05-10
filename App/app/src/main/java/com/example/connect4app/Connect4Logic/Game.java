@@ -35,7 +35,11 @@ public class Game {
         while (board.firstEmptyRow(result) == -1){
             result = r.nextInt(high-low) + low;
         }
-        return board.occupyCell(result, turn);
+        Position position = board.occupyCell(result, turn);
+        if(board.maxConnected(position) >= 4){
+            hasWinner = true;
+        }
+        return position;
     }
     public void toggleTurn() {
         if(turn.id == 1){

@@ -24,4 +24,8 @@ class Player {
         return new Player(2);
     }
 
+    public boolean isEqualTo(Player other) {
+        return (other != null) && this.id == other.id;
+    }
+
 }

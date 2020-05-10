@@ -19,13 +19,13 @@
         <ImageView
             android:layout_width="88dp"
             android:layout_height="match_parent"
-            android:src="@drawable/configuration" />
+            android:src="@drawable/save" />
 
         <TextView
             android:id="@+id/messageMainPage"
             android:layout_width="248dp"
             android:layout_height="match_parent"
-            android:text="@string/messageConfiguration"
+            android:text="@string/messageResults"
             android:textColor="#000000"
             android:textSize="32dp"
             android:typeface="serif" />

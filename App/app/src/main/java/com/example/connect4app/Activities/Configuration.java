@@ -2,9 +2,12 @@ package com.example.connect4app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -44,6 +47,17 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
 
         Intent intent = new Intent(this, GameDevelopment.class);
         intent.putExtra("size",selectedtext);
+
+        //Passo el alias
+        EditText alias = (EditText)findViewById(R.id.alias);
+        String name = alias.getText().toString();
+        intent.putExtra("name", name);
+
+        //Passo si el temps esta activat  o no
+        CheckBox checkBox = (CheckBox) findViewById(R.id.checkbox);
+        boolean checked = checkBox.isChecked();
+        intent.putExtra("actiu", checked);
+
         startActivity(intent);
     }
 }

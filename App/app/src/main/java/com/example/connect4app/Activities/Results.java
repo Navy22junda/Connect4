@@ -33,6 +33,11 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
 
         email = (EditText)findViewById(R.id.emailEdit);
         logMessage = (EditText)findViewById(R.id.logEdit);
+
+        Intent intent = getIntent();
+        String player = intent.getStringExtra("Guanyador");
+        int temps = intent.getIntExtra("Temps",0);
+        logMessage.setText("Alias: "+ player +" Han sobrat "+ temps + " segons");
     }
 
     @Override

@@ -2,11 +2,15 @@ package com.example.connect4app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,22 +20,47 @@ import com.example.connect4app.Connect4Logic.Game;
 import com.example.connect4app.Connect4Logic.Position;
 import com.example.connect4app.R;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 public class GameDevelopment extends AppCompatActivity implements GridView.OnItemClickListener{
 
-    GridView gridView;
-    Game game;
-    static int sizef = 0;
+    private GridView gridView;
+    private Game game;
+    private static int sizef = 0;
+    static String name = "";
+    int temps = 50;
+    private TextView textView;
+    private Instant start = Instant.now();
+    private boolean time;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_game);
 
         int sizeGrill;
 
         Intent intent = getIntent();
+
+        //REBO ALIAS
+        name = intent.getStringExtra("name");
+
+        //REBO si el temps activat
+        time = intent.getBooleanExtra("actiu", false);
+        if(time){
+            LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout10);
+            linearLayout.setVisibility(linearLayout.VISIBLE);
+
+            textView = (TextView)findViewById(R.id.time);
+            textView.setText("Temps: " + temps);
+        }
+
+
+        //REBO mida grill
         String size = intent.getStringExtra("size");
         if(size.equals("5")){
             sizeGrill = 25;
@@ -44,6 +73,24 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         ImageAdapterInteractive.setData((Integer.parseInt(size)));
         sizef = (Integer.parseInt(size));
 
+
+        if (savedInstanceState != null) {
+            gridView = savedInstanceState.getParcelable("gridview");
+
+        }else{
+
+            //Inicialitzar celles
+            Cell[][] cell = new Cell[Integer.parseInt(size)][Integer.parseInt(size)];
+            for (int i = 0; i < (Integer.parseInt(size)); i++){
+                for (int j = 0; j < (Integer.parseInt(size)); j++){
+                    cell[i][j] = new Cell(false, 0);
+                }
+            }
+
+            game = new Game(new Board(Integer.parseInt(size), cell), (Integer.parseInt(size)), 100000, 0);
+
+        }
+
         //GridView de la parrilla
         gridView = (GridView)findViewById(R.id.grid);
         gridView.setNumColumns((Integer.parseInt(size)));
@@ -54,15 +101,6 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         interactive.setNumColumns((Integer.parseInt(size)));
         interactive.setAdapter(new ImageAdapterInteractive(this));
 
-        //Inicialitzar celles
-        Cell[][] cell = new Cell[Integer.parseInt(size)][Integer.parseInt(size)];
-        for (int i = 0; i < (Integer.parseInt(size)); i++){
-            for (int j = 0; j < (Integer.parseInt(size)); j++){
-                cell[i][j] = new Cell(false, 0);
-            }
-        }
-
-        game = new Game(new Board(Integer.parseInt(size), cell), (Integer.parseInt(size)), 100000, 0);
         interactive.setOnItemClickListener(this);
 
 
@@ -78,9 +116,13 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Instant end = Instant.now();
         Position pos = game.drop(position);
         if(game.checkForFinish()){
             Intent intent = new Intent(this, Results.class);
+            intent.putExtra("Guanyador", name);
+            intent.putExtra("Temps", temps-Duration.between(start, end).getSeconds());
             startActivity(intent);
         }
         int index = calculatePos(pos.getRow(), pos.getColumn());
@@ -92,14 +134,22 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         pos = game.playOpponent();
         if(game.checkForFinish()){
             Intent intent = new Intent(this, Results.class);
+            intent.putExtra("Guanyador", "PLAYER2");
+            intent.putExtra("Temps", temps-Duration.between(start, end).getSeconds());
             startActivity(intent);
         }
+        Log.v("COLUMNA", "COL "+pos.getColumn() + " ROW"+ pos.getRow());
         index = calculatePos(pos.getRow(), pos.getColumn());
         curentTile = gridView.getChildAt(index);
         curentTile.setBackgroundResource(R.drawable.fitxagroga);
         game.toggleTurn();
 
 
+        if(time){
+            end = Instant.now();
+            Duration timeElapsed = Duration.between(start, end);
+            textView.setText("Temps: " + (temps - timeElapsed.getSeconds()));
+        }
 
     }
 
@@ -107,6 +157,18 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         int actualrow =  sizef - row;
         int actualcolumn = sizef - column;
         return (actualrow * sizef) - actualcolumn;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelable("gridview", gridView.onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        gridView = savedInstanceState.getParcelable("gridview");
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }
 
