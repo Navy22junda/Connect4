@@ -62,13 +62,17 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
 
-            case R.id.buttonExit:
-                finish();
-                break;
+            case R.id.buttonSortir:
+                //Borrar el backstack i sortir
+                finishAffinity();
+                System.exit(0);
 
             case R.id.buttonNovaPartida:
-                finishActivity(1);
-                finish();
+                //Borro el backstack i vaig a l'activity Configuration
+                intent = new Intent(this, Configuration.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                Results.this.finish();
 
         }
     }
