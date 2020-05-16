@@ -3,6 +3,7 @@ package com.example.connect4app.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,12 +49,14 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.buttonEnviar:
 
+                email.setFocusable(false);
+                logMessage.setFocusable(false);
                 Editable address = email.getText();
                 Editable log = logMessage.getText();
 
                 intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_EMAIL, address);
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] { address.toString() });
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Game Results");
                 intent.putExtra(Intent.EXTRA_TEXT, log);
                 startActivity(intent);
