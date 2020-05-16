@@ -67,7 +67,6 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
                 finishActivity(1);
                 finish();
 
-
         }
     }
 }

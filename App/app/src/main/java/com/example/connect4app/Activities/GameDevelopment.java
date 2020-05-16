@@ -2,6 +2,7 @@ package com.example.connect4app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.example.connect4app.R;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GameDevelopment extends AppCompatActivity implements GridView.OnItemClickListener{
@@ -34,6 +37,7 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
     private TextView textView;
     private Instant start = Instant.now();
     private boolean time;
+    private Parcelable mGridview, mAdapterInstanceState;
 
 
     @Override
@@ -75,7 +79,8 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
 
 
         if (savedInstanceState != null) {
-            gridView = savedInstanceState.getParcelable("gridview");
+            mGridview = savedInstanceState.getParcelable("gridview");
+            gridView = (GridView)mGridview;
 
         }else{
 
@@ -122,7 +127,7 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         if(game.checkForFinish()){
             Intent intent = new Intent(this, Results.class);
             intent.putExtra("Guanyador", name);
-            intent.putExtra("Temps", temps-Duration.between(start, end).getSeconds());
+            intent.putExtra("Temps", (temps - Duration.between(start, end).getSeconds()));
             startActivity(intent);
         }
         int index = calculatePos(pos.getRow(), pos.getColumn());
@@ -135,7 +140,7 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         if(game.checkForFinish()){
             Intent intent = new Intent(this, Results.class);
             intent.putExtra("Guanyador", "PLAYER2");
-            intent.putExtra("Temps", temps-Duration.between(start, end).getSeconds());
+            intent.putExtra("Temps", (temps - Duration.between(start, end).getSeconds()));
             startActivity(intent);
         }
         Log.v("COLUMNA", "COL "+pos.getColumn() + " ROW"+ pos.getRow());
@@ -143,7 +148,6 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         curentTile = gridView.getChildAt(index);
         curentTile.setBackgroundResource(R.drawable.fitxagroga);
         game.toggleTurn();
-
 
         if(time){
             end = Instant.now();
@@ -162,12 +166,16 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
+
         outState.putParcelable("gridview", gridView.onSaveInstanceState());
+        //outState.putParcelableArray("adapter", ImageAdapter);
+
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         gridView = savedInstanceState.getParcelable("gridview");
+        mAdapterInstanceState = savedInstanceState.getParcelable("adapter");
         super.onRestoreInstanceState(savedInstanceState);
     }
 }

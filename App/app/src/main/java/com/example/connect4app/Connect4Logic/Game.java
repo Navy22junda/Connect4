@@ -55,7 +55,8 @@ public class Game {
 
     }
     public boolean checkForFinish () {
-         if(!board.hasValidMoves() || hasWinner || status.state == 1){
+         if((!board.hasValidMoves() || hasWinner) && status.state == Status.STATUS_PLAYING.state){
+             status.state = Status.STATUS_FINAL.state;
              return true;
          }
          return false;
