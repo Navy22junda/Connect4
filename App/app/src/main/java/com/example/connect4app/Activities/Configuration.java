@@ -65,8 +65,8 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
 
             startActivity(intent);
         }else {
-
             Toast.makeText(this, R.string.emptyAlias, Toast.LENGTH_LONG).show();
+            alias.setFocusable(true);
 
         }
     }

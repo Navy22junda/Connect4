@@ -19,4 +19,5 @@
     <string name="missatgeAlies">Your nickname</string>
     <string name="messageResults">Results</string>
     <string name="emptyAlias">\You did not enter a username</string>
+    <string name="fullColumn">The column is full chose another</string>
 </resources>

@@ -64,6 +64,9 @@ public class Game {
 
     //Jugada de persona
     public Position drop(int col){
+        if(board.firstEmptyRow(col) == -1){
+            return (new Position(-1,-1));
+        }
         Position position = board.occupyCell(col, turn);
         if(board.maxConnected(position) >= 4){
             hasWinner = true;

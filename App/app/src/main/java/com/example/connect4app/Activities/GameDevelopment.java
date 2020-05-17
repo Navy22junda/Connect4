@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -124,35 +125,41 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
 
         Instant end = Instant.now();
         Position pos = game.drop(position);
-        if(game.checkForFinish()){
-            Intent intent = new Intent(this, Results.class);
-            intent.putExtra("Guanyador", name);
-            intent.putExtra("Temps", (temps - Duration.between(start, end).getSeconds()));
-            startActivity(intent);
-        }
-        int index = calculatePos(pos.getRow(), pos.getColumn());
-        View curentTile = gridView.getChildAt(index);
-        curentTile.setBackgroundResource(R.drawable.fitxaroja);
-        game.toggleTurn();
+        if(pos.getColumn() == -1 || pos.getRow() == -1){
+            Toast.makeText(this, R.string.fullColumn, Toast.LENGTH_LONG).show();
 
-        //JUGADA MAQUINA
-        pos = game.playOpponent();
-        if(game.checkForFinish()){
-            Intent intent = new Intent(this, Results.class);
-            intent.putExtra("Guanyador", "PLAYER2");
-            intent.putExtra("Temps", (temps - Duration.between(start, end).getSeconds()));
-            startActivity(intent);
-        }
-        Log.v("COLUMNA", "COL "+pos.getColumn() + " ROW"+ pos.getRow());
-        index = calculatePos(pos.getRow(), pos.getColumn());
-        curentTile = gridView.getChildAt(index);
-        curentTile.setBackgroundResource(R.drawable.fitxagroga);
-        game.toggleTurn();
+        }else {
 
-        if(time){
-            end = Instant.now();
-            Duration timeElapsed = Duration.between(start, end);
-            textView.setText("Temps: " + (temps - timeElapsed.getSeconds()));
+            if (game.checkForFinish()) {
+                Intent intent = new Intent(this, Results.class);
+                intent.putExtra("Guanyador", name);
+                intent.putExtra("Temps", (temps - Duration.between(start, end).getSeconds()));
+                startActivity(intent);
+            }
+            int index = calculatePos(pos.getRow(), pos.getColumn());
+            View curentTile = gridView.getChildAt(index);
+            curentTile.setBackgroundResource(R.drawable.fitxaroja);
+            game.toggleTurn();
+
+            //JUGADA MAQUINA
+            pos = game.playOpponent();
+            if (game.checkForFinish()) {
+                Intent intent = new Intent(this, Results.class);
+                intent.putExtra("Guanyador", "PLAYER2");
+                intent.putExtra("Temps", (temps - Duration.between(start, end).getSeconds()));
+                startActivity(intent);
+            }
+            Log.v("COLUMNA", "COL " + pos.getColumn() + " ROW" + pos.getRow());
+            index = calculatePos(pos.getRow(), pos.getColumn());
+            curentTile = gridView.getChildAt(index);
+            curentTile.setBackgroundResource(R.drawable.fitxagroga);
+            game.toggleTurn();
+
+            if (time) {
+                end = Instant.now();
+                Duration timeElapsed = Duration.between(start, end);
+                textView.setText("Temps: " + (temps - timeElapsed.getSeconds()));
+            }
         }
 
     }
