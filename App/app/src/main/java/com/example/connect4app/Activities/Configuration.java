@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,25 +40,34 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        int radioButtonId = radioGroup.getCheckedRadioButtonId();
-        RadioButton premut = radioGroup.findViewById(radioButtonId);
-        indexOfChildx = radioGroup.indexOfChild(premut);
-        RadioButton r = (RadioButton) radioGroup.getChildAt(indexOfChildx);
-        selectedtext = r.getText().toString();
-
-        Intent intent = new Intent(this, GameDevelopment.class);
-        intent.putExtra("size",selectedtext);
-
-        //Passo el alias
         EditText alias = (EditText)findViewById(R.id.alias);
+        alias.setFocusable(false);
         String name = alias.getText().toString();
-        intent.putExtra("name", name);
 
-        //Passo si el temps esta activat  o no
-        CheckBox checkBox = (CheckBox) findViewById(R.id.checkbox);
-        boolean checked = checkBox.isChecked();
-        intent.putExtra("actiu", checked);
+        if(!name.matches("")){
 
-        startActivity(intent);
+            int radioButtonId = radioGroup.getCheckedRadioButtonId();
+            RadioButton premut = radioGroup.findViewById(radioButtonId);
+            indexOfChildx = radioGroup.indexOfChild(premut);
+            RadioButton r = (RadioButton) radioGroup.getChildAt(indexOfChildx);
+            selectedtext = r.getText().toString();
+
+            Intent intent = new Intent(this, GameDevelopment.class);
+            intent.putExtra("size",selectedtext);
+
+            //Passo el alias
+            intent.putExtra("name", name);
+
+            //Passo si el temps esta activat  o no
+            CheckBox checkBox = (CheckBox) findViewById(R.id.checkbox);
+            boolean checked = checkBox.isChecked();
+            intent.putExtra("actiu", checked);
+
+            startActivity(intent);
+        }else {
+
+            Toast.makeText(this, R.string.emptyAlias, Toast.LENGTH_LONG).show();
+
+        }
     }
 }

@@ -18,4 +18,5 @@
         consecutives d un mateix color en horitzontal, vertical o diagonal.</string>
     <string name="missatgeAlies">Your nickname</string>
     <string name="messageResults">Results</string>
+    <string name="emptyAlias">\You did not enter a username</string>
 </resources>
