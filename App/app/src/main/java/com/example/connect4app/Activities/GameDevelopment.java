@@ -39,6 +39,7 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
     private Instant start = Instant.now();
     private boolean time;
     private Parcelable mGridview, mAdapterInstanceState;
+    private int positionInteractive;
 
 
     @Override
@@ -69,10 +70,13 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         String size = intent.getStringExtra("size");
         if(size.equals("5")){
             sizeGrill = 25;
+            positionInteractive = 150;
         }else if(size.equals("6")){
             sizeGrill = 36;
+            positionInteractive = 50;
         }else {
             sizeGrill = 49;
+            positionInteractive = -20;
         }
         ImageAdapter.setData(sizeGrill);
         ImageAdapterInteractive.setData((Integer.parseInt(size)));
@@ -106,6 +110,7 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         GridView interactive = (GridView)findViewById(R.id.interactiveGrid);
         interactive.setNumColumns((Integer.parseInt(size)));
         interactive.setAdapter(new ImageAdapterInteractive(this));
+        interactive.setY(positionInteractive);
 
         interactive.setOnItemClickListener(this);
 

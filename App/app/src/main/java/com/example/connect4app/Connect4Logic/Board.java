@@ -29,7 +29,7 @@ public class Board {
 
     public boolean hasValidMoves(){
         for(int i = 0; i < size; i++){
-            if(!cells[i][0].ocupat){
+            if(!cells[size-1][i].ocupat){
                 return true;
             }
         }

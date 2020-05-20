@@ -14,7 +14,7 @@ public class ImageAdapter extends BaseAdapter {
     static int totalSize;
     private Context mcontext;
 
-    public ImageAdapter(Context c){
+    public ImageAdapter(Context c) {
         mcontext = c;
     }
 
@@ -35,30 +35,44 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
-        if(convertView == null){
-            imageView = new ImageView(mcontext);
-            imageView.setPadding(0,0,0,0);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,70));
+        ImageView imageView = null;
+        if (convertView == null) {
 
-        }else {
+            switch (totalSize) {
+                case (25):
+                    imageView = new ImageView(mcontext);
+                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 65));
+                    break;
+
+                case (36):
+                    imageView = new ImageView(mcontext);
+                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 70));
+                    break;
+
+                case (49):
+                    imageView = new ImageView(mcontext);
+                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 72));
+                    break;
+            }
+        
+        } else {
             imageView = (ImageView) convertView;
         }
         imageView.setBackgroundResource(grill[position]);
         return imageView;
     }
 
-    public static void setData(int size){
+    public static void setData(int size) {
         totalSize = size;
     }
 
     private Integer[] grill = {
-            R.drawable.cela, R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,
-            R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,
-            R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,
-            R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,
-            R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,
-            R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,
-            R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,R.drawable.cela,
+            R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
+            R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
+            R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
+            R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
+            R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
+            R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
+            R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
     };
 }
