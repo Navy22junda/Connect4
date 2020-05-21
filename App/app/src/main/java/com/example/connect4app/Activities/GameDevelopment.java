@@ -39,7 +39,8 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
     private Instant start = Instant.now();
     private boolean time;
     private Parcelable mGridview, mAdapterInstanceState;
-    private int positionInteractive;
+    private int positionInteractive, currentPlay = 0;
+
 
 
     @Override
@@ -128,17 +129,30 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        Position pos = null;
         Instant end = Instant.now();
-        Position pos = game.drop(position);
+        if(currentPlay < (sizef*sizef)){
+            currentPlay ++;
+            pos = game.drop(position);
+        }else{
+            Intent intent = new Intent(this, Results.class);
+            intent.putExtra("Guanyador", "Empat ningu guanya");
+            int finaltime = (int) (temps - Duration.between(start, end).getSeconds());
+            intent.putExtra("Temps", finaltime);
+            startActivity(intent);
+        }
+        int flag = 0;
         if(pos.getColumn() == -1 || pos.getRow() == -1){
             Toast.makeText(this, R.string.fullColumn, Toast.LENGTH_LONG).show();
 
         }else {
 
             if (game.checkForFinish()) {
+                flag = 1;
                 Intent intent = new Intent(this, Results.class);
                 intent.putExtra("Guanyador", name);
-                intent.putExtra("Temps", (temps - Duration.between(start, end).getSeconds()));
+                int finaltime = (int) (temps - Duration.between(start, end).getSeconds());
+                intent.putExtra("Temps", finaltime);
                 startActivity(intent);
             }
             int index = calculatePos(pos.getRow(), pos.getColumn());
@@ -147,11 +161,21 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
             game.toggleTurn();
 
             //JUGADA MAQUINA
-            pos = game.playOpponent();
-            if (game.checkForFinish()) {
+            if(currentPlay < (sizef*sizef)){
+                currentPlay ++;
+                pos = game.playOpponent();
+            }else {
+                Intent intent = new Intent(this, Results.class);
+                intent.putExtra("Guanyador", "Empat ningu guanya");
+                int finaltime = (int) (temps - Duration.between(start, end).getSeconds());
+                intent.putExtra("Temps", finaltime);
+                startActivity(intent);
+            }
+            if (game.checkForFinish() && flag == 0) {
                 Intent intent = new Intent(this, Results.class);
                 intent.putExtra("Guanyador", "PLAYER2");
-                intent.putExtra("Temps", (temps - Duration.between(start, end).getSeconds()));
+                int finaltime = (int) (temps - Duration.between(start, end).getSeconds());
+                intent.putExtra("Temps", finaltime);
                 startActivity(intent);
             }
             Log.v("COLUMNA", "COL " + pos.getColumn() + " ROW" + pos.getRow());

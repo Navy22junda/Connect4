@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.connect4app.R;
 
+import javax.xml.datatype.Duration;
+
 public class Results extends AppCompatActivity implements View.OnClickListener {
 
     EditText email;
