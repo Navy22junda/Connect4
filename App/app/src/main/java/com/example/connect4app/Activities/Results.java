@@ -65,7 +65,7 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.buttonSortir:
-                //Borrar el backstack i sortir
+                //Borrar el backstack i sortir de l'app
                 finishAffinity();
                 System.exit(0);
 

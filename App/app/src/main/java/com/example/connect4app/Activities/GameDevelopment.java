@@ -24,9 +24,6 @@ import com.example.connect4app.R;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class GameDevelopment extends AppCompatActivity implements GridView.OnItemClickListener{
 
