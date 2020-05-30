@@ -1,6 +1,7 @@
 package com.example.connect4app.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.connect4app.R;
@@ -37,6 +39,7 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
 
@@ -52,7 +55,7 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
             RadioButton r = (RadioButton) radioGroup.getChildAt(indexOfChildx);
             selectedtext = r.getText().toString();
 
-            Intent intent = new Intent(this, GameDevelopment.class);
+            Intent intent = new Intent(this, ContainerFragments.class);
             intent.putExtra("size",selectedtext);
 
             //Passo el alias
@@ -64,6 +67,7 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
             intent.putExtra("actiu", checked);
 
             startActivity(intent);
+
         }else {
             Toast.makeText(this, R.string.emptyAlias, Toast.LENGTH_LONG).show();
             alias.setFocusable(true);

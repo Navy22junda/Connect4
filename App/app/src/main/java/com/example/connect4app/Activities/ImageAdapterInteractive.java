@@ -10,6 +10,8 @@ import com.example.connect4app.R;
 
 public class ImageAdapterInteractive extends BaseAdapter {
 
+    public static int fitxaSize;
+    public static int width = 0;
     static int totalSize;
     private Context mcontext;
 
@@ -38,7 +40,7 @@ public class ImageAdapterInteractive extends BaseAdapter {
         if(convertView == null){
             imageView = new ImageView(mcontext);
             imageView.setPadding(0,0,0,0);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,70));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT+(fitxaSize*2)+width,70+fitxaSize));
 
         }else {
             imageView = (ImageView) convertView;

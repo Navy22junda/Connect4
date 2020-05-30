@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <!-- Especifico la classe a instanciar (ja que es estàtic el fragment)-->
+
+    <fragment
+        android:id="@+id/fragmentGame"
+        class="com.example.connect4app.Activities.GameDevelopment"
+        android:layout_width="252dp"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/fragmentLog"
+        class="com.example.connect4app.Activities.LogFrag"
+        android:layout_width="473dp"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

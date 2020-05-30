@@ -3,18 +3,18 @@ package com.example.connect4app.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.connect4app.Connect4Logic.Board;
 import com.example.connect4app.Connect4Logic.Cell;
@@ -25,47 +25,66 @@ import com.example.connect4app.R;
 import java.time.Duration;
 import java.time.Instant;
 
-public class GameDevelopment extends AppCompatActivity implements GridView.OnItemClickListener{
+public class GameDevelopment extends Fragment implements GridView.OnItemClickListener{
 
     private GridView gridView;
     private Game game;
+    static String size;
     private static int sizef = 0;
     static String name = "";
-    int temps = 50;
+    static int temps = 50;
     private TextView textView;
     private Instant start = Instant.now();
-    private boolean time;
+    static boolean time;
     private Parcelable mGridview, mAdapterInstanceState;
     private int positionInteractive, currentPlay = 0;
 
-
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_game);
+        /*
+        //Recuperem paràmetres de l'activity
+        Bundle b = getArguments();
+
+        if(b != null){
+            Log.v("ALGO FUNCIONA", "ALGO FUNCIONA CORRECTAMENT PERFAVOR");
+            //REBO ALIAS
+            name = b.getString("name");
+
+            //REBO si el temps activat
+            time = b.getBoolean("actiu");
+
+            //REBO mida grill
+            size = b.getString("size");
+        }
+        */
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        return inflater.inflate(R.layout.activity_game, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
         int sizeGrill;
 
-        Intent intent = getIntent();
 
-        //REBO ALIAS
-        name = intent.getStringExtra("name");
 
-        //REBO si el temps activat
-        time = intent.getBooleanExtra("actiu", false);
         if(time){
-            LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout10);
+            LinearLayout linearLayout = (LinearLayout)getView().findViewById(R.id.linearLayout10);
             linearLayout.setVisibility(linearLayout.VISIBLE);
 
-            textView = (TextView)findViewById(R.id.time);
+            textView = (TextView)getView().findViewById(R.id.time);
             textView.setText("Temps: " + temps);
         }
 
-
-        //REBO mida grill
-        String size = intent.getStringExtra("size");
         if(size.equals("5")){
             sizeGrill = 25;
             positionInteractive = 150;
@@ -76,6 +95,20 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
             sizeGrill = 49;
             positionInteractive = -20;
         }
+        //CAMBIO LA MIDA DE FITXES SI ES TABLET
+        LogFrag frag = (LogFrag)getFragmentManager().findFragmentById(R.id.fragmentLog);
+        if(frag != null && frag.isInLayout()){
+            ImageAdapter.fitxaSize = 72;
+            ImageAdapterInteractive.fitxaSize = 72;
+            ImageAdapter.width = 60;
+            if(sizeGrill == 25) {
+                ImageAdapterInteractive.width = 60;
+            }else{
+                ImageAdapterInteractive.width = 10;
+            }
+        }
+
+
         ImageAdapter.setData(sizeGrill);
         ImageAdapterInteractive.setData((Integer.parseInt(size)));
         sizef = (Integer.parseInt(size));
@@ -100,14 +133,14 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         }
 
         //GridView de la parrilla
-        gridView = (GridView)findViewById(R.id.grid);
+        gridView = (GridView)getView().findViewById(R.id.grid);
         gridView.setNumColumns((Integer.parseInt(size)));
-        gridView.setAdapter(new ImageAdapter(this));
+        gridView.setAdapter(new ImageAdapter(getActivity()));
 
         //GridView interactuable
-        GridView interactive = (GridView)findViewById(R.id.interactiveGrid);
+        GridView interactive = (GridView)getView().findViewById(R.id.interactiveGrid);
         interactive.setNumColumns((Integer.parseInt(size)));
-        interactive.setAdapter(new ImageAdapterInteractive(this));
+        interactive.setAdapter(new ImageAdapterInteractive(getActivity()));
         interactive.setY(positionInteractive);
 
         interactive.setOnItemClickListener(this);
@@ -116,10 +149,10 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
     }
 
     @Override
-    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
         if(requestCode == 1){
-            finish();
+            getActivity().finish();
         }
     }
 
@@ -132,25 +165,25 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
             currentPlay ++;
             pos = game.drop(position);
         }else{
-            Intent intent = new Intent(this, Results.class);
+            Intent intent = new Intent(getActivity(), Results.class);
             intent.putExtra("Guanyador", "Empat ningu guanya");
             int finaltime = (int) (temps - Duration.between(start, end).getSeconds());
             intent.putExtra("Temps", finaltime);
-            startActivity(intent);
+            view.getContext().startActivity(intent);
         }
         int flag = 0;
         if(pos.getColumn() == -1 || pos.getRow() == -1){
-            Toast.makeText(this, R.string.fullColumn, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.fullColumn, Toast.LENGTH_LONG).show();
 
         }else {
 
             if (game.checkForFinish()) {
                 flag = 1;
-                Intent intent = new Intent(this, Results.class);
+                Intent intent = new Intent(getActivity(), Results.class);
                 intent.putExtra("Guanyador", name);
                 int finaltime = (int) (temps - Duration.between(start, end).getSeconds());
                 intent.putExtra("Temps", finaltime);
-                startActivity(intent);
+                view.getContext().startActivity(intent);
             }
             int index = calculatePos(pos.getRow(), pos.getColumn());
             View curentTile = gridView.getChildAt(index);
@@ -162,18 +195,18 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
                 currentPlay ++;
                 pos = game.playOpponent();
             }else {
-                Intent intent = new Intent(this, Results.class);
+                Intent intent = new Intent(getActivity(), Results.class);
                 intent.putExtra("Guanyador", "Empat ningu guanya");
                 int finaltime = (int) (temps - Duration.between(start, end).getSeconds());
                 intent.putExtra("Temps", finaltime);
-                startActivity(intent);
+                view.getContext().startActivity(intent);
             }
             if (game.checkForFinish() && flag == 0) {
-                Intent intent = new Intent(this, Results.class);
+                Intent intent = new Intent(getActivity(), Results.class);
                 intent.putExtra("Guanyador", "PLAYER2");
                 int finaltime = (int) (temps - Duration.between(start, end).getSeconds());
                 intent.putExtra("Temps", finaltime);
-                startActivity(intent);
+                view.getContext().startActivity(intent);
             }
             Log.v("COLUMNA", "COL " + pos.getColumn() + " ROW" + pos.getRow());
             index = calculatePos(pos.getRow(), pos.getColumn());
@@ -196,20 +229,5 @@ public class GameDevelopment extends AppCompatActivity implements GridView.OnIte
         return (actualrow * sizef) - actualcolumn;
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-
-        outState.putParcelable("gridview", gridView.onSaveInstanceState());
-        //outState.putParcelableArray("adapter", ImageAdapter);
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        gridView = savedInstanceState.getParcelable("gridview");
-        mAdapterInstanceState = savedInstanceState.getParcelable("adapter");
-        super.onRestoreInstanceState(savedInstanceState);
-    }
 }
 

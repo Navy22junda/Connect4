@@ -11,7 +11,9 @@ import com.example.connect4app.R;
 
 public class ImageAdapter extends BaseAdapter {
 
+    static int width = 0;
     static int totalSize;
+    static int fitxaSize = 0;
     private Context mcontext;
 
     public ImageAdapter(Context c) {
@@ -41,17 +43,17 @@ public class ImageAdapter extends BaseAdapter {
             switch (totalSize) {
                 case (25):
                     imageView = new ImageView(mcontext);
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 65));
+                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT+(fitxaSize*2)+width, 65+(fitxaSize)));
                     break;
 
                 case (36):
                     imageView = new ImageView(mcontext);
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 70));
+                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 70+fitxaSize));
                     break;
 
                 case (49):
                     imageView = new ImageView(mcontext);
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 72));
+                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 72+fitxaSize));
                     break;
             }
         
