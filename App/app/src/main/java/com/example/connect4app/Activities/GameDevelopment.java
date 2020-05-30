@@ -76,7 +76,6 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
         int sizeGrill;
 
 
-
         if(time){
             LinearLayout linearLayout = (LinearLayout)getView().findViewById(R.id.linearLayout10);
             linearLayout.setVisibility(linearLayout.VISIBLE);
@@ -101,6 +100,12 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
             ImageAdapter.fitxaSize = 72;
             ImageAdapterInteractive.fitxaSize = 72;
             ImageAdapter.width = 60;
+
+            //Passo dades al fragment
+            frag.setAlias(name);
+            frag.setMida(Integer.parseInt(size));
+            frag.setTime(time);
+
             if(sizeGrill == 25) {
                 ImageAdapterInteractive.width = 60;
             }else{
@@ -144,8 +149,6 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
         interactive.setY(positionInteractive);
 
         interactive.setOnItemClickListener(this);
-
-
     }
 
     @Override
@@ -159,11 +162,12 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Position pos = null;
+        Position posPerson = null;
+        Position posMachine = null;
         Instant end = Instant.now();
         if(currentPlay < (sizef*sizef)){
             currentPlay ++;
-            pos = game.drop(position);
+            posPerson = game.drop(position);
         }else{
             Intent intent = new Intent(getActivity(), Results.class);
             intent.putExtra("Guanyador", "Empat ningu guanya");
@@ -172,7 +176,7 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
             view.getContext().startActivity(intent);
         }
         int flag = 0;
-        if(pos.getColumn() == -1 || pos.getRow() == -1){
+        if(posPerson.getColumn() == -1 || posPerson.getRow() == -1){
             Toast.makeText(getActivity(), R.string.fullColumn, Toast.LENGTH_LONG).show();
 
         }else {
@@ -185,7 +189,7 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
                 intent.putExtra("Temps", finaltime);
                 view.getContext().startActivity(intent);
             }
-            int index = calculatePos(pos.getRow(), pos.getColumn());
+            int index = calculatePos(posPerson.getRow(), posPerson.getColumn());
             View curentTile = gridView.getChildAt(index);
             curentTile.setBackgroundResource(R.drawable.fitxaroja);
             game.toggleTurn();
@@ -193,7 +197,7 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
             //JUGADA MAQUINA
             if(currentPlay < (sizef*sizef)){
                 currentPlay ++;
-                pos = game.playOpponent();
+                posMachine = game.playOpponent();
             }else {
                 Intent intent = new Intent(getActivity(), Results.class);
                 intent.putExtra("Guanyador", "Empat ningu guanya");
@@ -208,8 +212,8 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
                 intent.putExtra("Temps", finaltime);
                 view.getContext().startActivity(intent);
             }
-            Log.v("COLUMNA", "COL " + pos.getColumn() + " ROW" + pos.getRow());
-            index = calculatePos(pos.getRow(), pos.getColumn());
+            Log.v("COLUMNA", "COL " + posMachine.getColumn() + " ROW" + posMachine.getRow());
+            index = calculatePos(posMachine.getRow(), posMachine.getColumn());
             curentTile = gridView.getChildAt(index);
             curentTile.setBackgroundResource(R.drawable.fitxagroga);
             game.toggleTurn();
@@ -219,6 +223,11 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
                 Duration timeElapsed = Duration.between(start, end);
                 textView.setText("Temps: " + (temps - timeElapsed.getSeconds()));
             }
+        }
+        LogFrag frag = (LogFrag)getFragmentManager().findFragmentById(R.id.fragmentLog);
+        if(frag != null && frag.isInLayout()){
+            Duration timeElapsed = Duration.between(start, end);
+            frag.showLog(posPerson.getRow(), posPerson.getColumn(), start, end, temps - timeElapsed.getSeconds());
         }
 
     }
