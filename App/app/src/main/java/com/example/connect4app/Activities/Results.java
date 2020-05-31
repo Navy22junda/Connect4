@@ -41,6 +41,8 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
         String player = intent.getStringExtra("Guanyador");
         int temps = intent.getIntExtra("Temps",0);
         logMessage.setText("Alias: "+ player +" Han sobrat "+ temps + " segons");
+        email.setText("example@email.com");
+
     }
 
     @Override

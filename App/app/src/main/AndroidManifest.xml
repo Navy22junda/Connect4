@@ -19,6 +19,7 @@
         <activity android:name=".Activities.Help"></activity>
         <activity android:name=".Activities.Preferences"></activity>
         <activity android:name=".Activities.Results"></activity>
+        <activity android:name=".Activities.GamesPlayed"></activity>
         <activity android:name=".Activities.ContainerFragments"></activity>
     </application>
 

@@ -25,10 +25,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button start = findViewById(R.id.buttonStart);
         Button help = findViewById(R.id.buttonHelp);
+        Button game = findViewById(R.id.buttonGames);
         Button exit = findViewById(R.id.buttonExit);
 
         start.setOnClickListener(this);
         help.setOnClickListener(this);
+        game.setOnClickListener(this);
         exit.setOnClickListener(this);
 
 
@@ -49,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.buttonHelp:
                 intent = new Intent(this, Help.class);
+                startActivity(intent);
+                break;
+
+            case R.id.buttonGames:
+                intent = new Intent(this, GamesPlayed.class);
                 startActivity(intent);
                 break;
 
