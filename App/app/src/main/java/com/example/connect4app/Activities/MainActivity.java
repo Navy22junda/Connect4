@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
 
             case R.id.buttonStart:
-                intent = new Intent(this, Configuration.class);
+                intent = new Intent(this, ContainerFragments.class);
                 startActivity(intent);
                 break;
 
@@ -71,12 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (item.getItemId() == R.id.config) {
             Intent intent = new Intent(this, Preferences.class);
-            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-            //SharedPreferences.Editor editor = sharedPreferences.edit();
-            //editor.putString("name", name);
-            //editor.putBoolean("actiu", checked);
-            //editor.putString("size", selectedtext);
-            //editor.apply();
             startActivity(intent);
         }
         return true;

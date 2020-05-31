@@ -7,7 +7,7 @@
             android:dialogTitle="Indentity Alias"
             android:inputType="text"
             android:id="@id/alias"
-            android:key="@id/alias"
+            android:key="alias"
             android:summary="Introduce an alias"
             android:title="Introduce an alias that you want to play as"/>
         <ListPreference
@@ -18,7 +18,7 @@
             android:summary="Introduce the size of the game you wold like"/>
         <CheckBoxPreference
             android:id="@id/time"
-            android:key="Time"
+            android:key="time"
             android:title="Time activation"
             android:summary="Click if you want to activate time"
             android:defaultValue="false"/>

@@ -1,8 +1,11 @@
 package com.example.connect4app.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,37 +32,19 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
 
     private GridView gridView;
     private Game game;
-    static String size;
+    private String size;
     private static int sizef = 0;
-    static String name = "";
+    private String name = "";
     static int temps = 50;
     private TextView textView;
     private Instant start = Instant.now();
-    static boolean time;
+    private boolean time;
     private Parcelable mGridview, mAdapterInstanceState;
     private int positionInteractive, currentPlay = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*
-        //Recuperem paràmetres de l'activity
-        Bundle b = getArguments();
-
-        if(b != null){
-            Log.v("ALGO FUNCIONA", "ALGO FUNCIONA CORRECTAMENT PERFAVOR");
-            //REBO ALIAS
-            name = b.getString("name");
-
-            //REBO si el temps activat
-            time = b.getBoolean("actiu");
-
-            //REBO mida grill
-            size = b.getString("size");
-        }
-        */
-
     }
 
     @Override
@@ -74,6 +59,11 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
         super.onCreate(savedInstanceState);
 
         int sizeGrill;
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        size = preferences.getString("size", "5");
+        name = preferences.getString("alias", "None");
+        time = preferences.getBoolean("temps",false);
 
 
         if(time){
