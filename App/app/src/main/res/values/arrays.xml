@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="size">
+        <item>5x5</item>
+        <item>6x6</item>
+        <item>7x7</item>
+    </string-array>
+    <string-array name="column">
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+</resources>

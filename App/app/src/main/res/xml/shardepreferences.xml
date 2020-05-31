@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="General">
+        <EditTextPreference
+            android:dialogTitle="Indentity Alias"
+            android:inputType="text"
+            android:id="@id/alias"
+            android:key="@id/alias"
+            android:summary="Introduce an alias"
+            android:title="Introduce an alias that you want to play as"/>
+        <ListPreference
+            android:dialogTitle="Size of the game"
+            android:entries="@array/size"
+            android:entryValues="@array/column"
+            android:key="size"
+            android:summary="Introduce the size of the game you wold like"/>
+        <CheckBoxPreference
+            android:id="@id/time"
+            android:key="Time"
+            android:title="Time activation"
+            android:summary="Click if you want to activate time"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

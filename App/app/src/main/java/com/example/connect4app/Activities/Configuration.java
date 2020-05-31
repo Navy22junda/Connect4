@@ -1,8 +1,10 @@
 package com.example.connect4app.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,12 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuration);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //editor.putString("name", name);
+        //editor.putBoolean("actiu", checked);
+        editor.putString("size", selectedtext);
+        editor.apply();
         //Agafar el botó premut i mirar-li el text que conte
         radioGroup = (RadioGroup)findViewById(R.id.radio);
 
@@ -46,6 +54,9 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
         EditText alias = (EditText)findViewById(R.id.alias);
         alias.setFocusable(false);
         String name = alias.getText().toString();
+
+
+
 
         if(!name.matches("")){
 
@@ -67,6 +78,8 @@ public class Configuration extends AppCompatActivity implements View.OnClickList
             intent.putExtra("actiu", checked);
 
             startActivity(intent);
+
+
 
         }else {
             Toast.makeText(this, R.string.emptyAlias, Toast.LENGTH_LONG).show();

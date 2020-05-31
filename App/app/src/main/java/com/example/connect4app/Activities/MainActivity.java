@@ -1,9 +1,16 @@
 package com.example.connect4app.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -50,5 +57,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.configuration, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.config) {
+            Intent intent = new Intent(this, Preferences.class);
+            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+            //SharedPreferences.Editor editor = sharedPreferences.edit();
+            //editor.putString("name", name);
+            //editor.putBoolean("actiu", checked);
+            //editor.putString("size", selectedtext);
+            //editor.apply();
+            startActivity(intent);
+        }
+        return true;
     }
 }
