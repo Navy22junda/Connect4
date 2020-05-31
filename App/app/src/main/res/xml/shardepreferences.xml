@@ -6,7 +6,7 @@
         <EditTextPreference
             android:dialogTitle="Indentity Alias"
             android:inputType="text"
-            android:id="@id/alias"
+            android:id="@+id/alias"
             android:key="alias"
             android:summary="Introduce an alias"
             android:title="Introduce an alias that you want to play as"/>
