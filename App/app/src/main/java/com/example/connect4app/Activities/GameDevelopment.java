@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,13 +31,13 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
 
     private GridView gridView;
     private Game game;
-    private String size;
+    public static String size;
     private static int sizef = 0;
-    private String name = "";
-    static int temps = 50;
+    public static String name = "";
+    public static int temps = 50;
     private TextView textView;
     private Instant start = Instant.now();
-    private boolean time;
+    public static boolean time;
     private Parcelable mGridview, mAdapterInstanceState;
     private int positionInteractive, currentPlay = 0;
 

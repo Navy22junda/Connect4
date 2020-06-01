@@ -44,10 +44,6 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
         logMessage.setText("Alias: "+ player +" Han sobrat "+ temps + " segons");
         email.setText("example@email.com");
 
-        //BASE DADES SQLite
-        SqliteTable sqliteTable = new SqliteTable(this, "DBUsuaris", null, 1);
-        sqliteTable.onUpgrade();
-
     }
 
     @Override

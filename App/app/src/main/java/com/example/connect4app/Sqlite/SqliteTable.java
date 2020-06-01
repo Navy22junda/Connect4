@@ -8,6 +8,11 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.Nullable;
 
+import com.example.connect4app.Activities.GameDevelopment;
+import com.example.connect4app.Connect4Logic.Game;
+
+import java.time.LocalDate;
+
 public class SqliteTable extends SQLiteOpenHelper {
 
     String sqlCreate = "CREATE TABLE Game" +
@@ -27,9 +32,18 @@ public class SqliteTable extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(sqlCreate);
 
-       db.execSQL("INSERT INTO Game (alias, date, size, flag, time , result) " +
+        String alias = GameDevelopment.name;
+        String size = GameDevelopment.size;
+        Boolean flag = GameDevelopment.time;
+        LocalDate date = LocalDate.now();
+        int time = GameDevelopment.temps;
+        String result = "NONE";
+
+
+        db.execSQL("INSERT INTO Game (alias, date, size, flag, time , result) " +
                     "VALUES ('" + alias + "','" + date + "','" + size + "','" + flag + "','" + time + "','" + result + "')");
     }
 
