@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.connect4app.R;
+import com.example.connect4app.Sqlite.SqliteTable;
 
 import javax.xml.datatype.Duration;
 
@@ -42,6 +43,10 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
         int temps = intent.getIntExtra("Temps",0);
         logMessage.setText("Alias: "+ player +" Han sobrat "+ temps + " segons");
         email.setText("example@email.com");
+
+        //BASE DADES SQLite
+        SqliteTable sqliteTable = new SqliteTable(this, "DBUsuaris", null, 1);
+        sqliteTable.onUpgrade();
 
     }
 
