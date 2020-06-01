@@ -1,6 +1,7 @@
 package com.example.connect4app.Activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -43,6 +44,12 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
         int temps = intent.getIntExtra("Temps",0);
         logMessage.setText("Alias: "+ player +" Han sobrat "+ temps + " segons");
         email.setText("example@email.com");
+
+        SqliteTable usdbh =
+                new SqliteTable(this, "Game", null, 1);
+        SQLiteDatabase db = usdbh.getWritableDatabase();
+
+        // Com fer un create i insertar al sqlite usdbh.onCreate(db);
 
     }
 

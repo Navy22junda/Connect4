@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 public class SqliteTable extends SQLiteOpenHelper {
 
-    String sqlCreate = "CREATE TABLE Game" +
+    String sqlCreate = "CREATE TABLE Game4" +
             "(_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             " alias TEXT, " +
             " date INTEGER, " +
