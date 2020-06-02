@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.connect4app.Activities.GameDevelopment;
 import com.example.connect4app.Connect4Logic.Game;
@@ -30,13 +32,14 @@ public class SqliteTable extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(sqlCreate);
 
         String alias = GameDevelopment.name;
-        String size = GameDevelopment.size;
+        int size = GameDevelopment.size;
         Boolean flag = GameDevelopment.time;
         LocalDate date = LocalDate.now();
         int time = GameDevelopment.temps;

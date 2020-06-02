@@ -1,5 +1,6 @@
 package com.example.connect4app.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
     EditText email;
     EditText logMessage;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +42,9 @@ public class Results extends AppCompatActivity implements View.OnClickListener {
         logMessage = (EditText)findViewById(R.id.logEdit);
 
         Intent intent = getIntent();
-        String player = intent.getStringExtra("Guanyador");
-        int temps = intent.getIntExtra("Temps",0);
-        logMessage.setText("Alias: "+ player +" Han sobrat "+ temps + " segons");
+        String player = intent.getStringExtra("Winner");
+        int temps = intent.getIntExtra("Time",0);
+        logMessage.setText("Alias: "+ player +" Time left "+ temps + " seconds");
         email.setText("example@email.com");
 
         SqliteTable usdbh =
