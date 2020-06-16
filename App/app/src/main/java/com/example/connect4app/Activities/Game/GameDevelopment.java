@@ -104,7 +104,12 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
         }
 
         //Ajustament de la graella segons layouts
+
+
         landscapeGrillAjustment();
+        //
+        // NO acaba de funcionar la vista landscape ja que les mesures cambien amb els mòbils
+        //Dificilment es pot ajustar bé (s'ha provat varies maneres=
         tabletGrillAjustment();
 
 

@@ -3,32 +3,28 @@ package com.example.connect4app.Activities.SavedGames;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
 import com.example.connect4app.Activities.MainActivity;
 import com.example.connect4app.R;
 import com.example.connect4app.Sqlite.SqliteTable;
 
-public class AccessBDFragment extends Fragment implements View.OnClickListener{
-
-
-    private SQLiteDatabase db;
-    private selectInfoListener listener;
+public class AccessBDFragment extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public void onCreate( Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -38,14 +34,14 @@ public class AccessBDFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         //BASE DADES SQLite
         SqliteTable usdbh = SqliteTable.initialize(getContext());
         final DetailFragment frag = (DetailFragment) getFragmentManager().findFragmentById(R.id.detailFrag);
 
-        ListView listView = (ListView)getView().findViewById(R.id.games);
+        ListView listView = (ListView) getView().findViewById(R.id.games);
         listView.setAdapter(new infoGames(this, usdbh));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -53,10 +49,8 @@ public class AccessBDFragment extends Fragment implements View.OnClickListener{
             public void onItemClick(AdapterView<?> list, View view, int pos, long id) {
                 DetailFragment frag = (DetailFragment) getFragmentManager().findFragmentById(R.id.regFrag);
                 if (frag != null && frag.isInLayout()) {
-                    Log.v("BEEEEEEEEE", "fins aqui OK");
                     frag.showContent(pos);
-                }else{
-                    Log.v("MAAAAAAAAL", "entra else");
+                } else {
                     Intent intent = new Intent(getActivity(), DetailActivity.class);
                     intent.putExtra("pos", pos);
                     startActivity(intent);
@@ -68,10 +62,6 @@ public class AccessBDFragment extends Fragment implements View.OnClickListener{
         back.setOnClickListener(this);
     }
 
-    public interface selectInfoListener {
-        void onGameSelected(int pos);
-    }
-
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getContext(), MainActivity.class);
@@ -80,7 +70,7 @@ public class AccessBDFragment extends Fragment implements View.OnClickListener{
 
 
     //ADAPTER DEL LIST VIEW
-    private class infoGames extends BaseAdapter{
+    private class infoGames extends BaseAdapter {
 
         Activity context;
         SqliteTable db;
@@ -114,14 +104,23 @@ public class AccessBDFragment extends Fragment implements View.OnClickListener{
             Cursor cursor = db.getDataFromDB();
             cursor.moveToPosition(position);
 
-            TextView alias = (TextView) item.findViewById(R.id.Alias);
+            TextView alias = item.findViewById(R.id.Alias);
             alias.setText(cursor.getString(1));
 
-            TextView date = (TextView) item.findViewById(R.id.Date);
+            TextView date = item.findViewById(R.id.Date);
             date.setText(cursor.getString(2));
 
-            TextView result = (TextView) item.findViewById(R.id.Result);
+            TextView result = item.findViewById(R.id.Result);
             result.setText(cursor.getString(6));
+
+            ImageView imageView = item.findViewById(R.id.imageParticular);
+            if ("Winner".equals(result.getText())) {
+                imageView.setImageResource(R.drawable.victoria);
+            } else if ("Loser".equals(result.getText())) {
+                imageView.setImageResource(R.drawable.derrota);
+            }else {
+                imageView.setImageResource(R.drawable.empate);
+            }
 
             return (item);
         }
