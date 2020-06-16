@@ -9,7 +9,8 @@
             android:id="@+id/alias"
             android:key="alias"
             android:summary="Introduce an alias"
-            android:title="Introduce an alias that you want to play as"/>
+            android:title="Introduce an alias that you want to play as"
+            android:defaultValue="@string/player"/>
         <ListPreference
             android:dialogTitle="Size of the game"
             android:entries="@array/size"

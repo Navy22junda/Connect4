@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,29 +18,29 @@
 
         <Button
             android:id="@+id/buttonStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:text="@string/startButton" />
 
         <Button
             android:id="@+id/buttonHelp"
-            android:layout_width="111dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:text="@string/helpButton" />
 
         <Button
             android:id="@+id/buttonGames"
-            android:layout_width="111dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:text="@string/consult" />
+            android:text="@string/gamesButton" />
 
         <Button
             android:id="@+id/buttonExit"
-            android:layout_width="111dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:text="@string/exitButton" />
 
@@ -49,36 +49,36 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:background="@drawable/minimal"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="128dp"
+            android:layout_width="235dp"
             android:layout_height="match_parent"
             android:src="@drawable/connect4image" />
 
         <TextView
             android:id="@+id/messageMainPage"
-            android:layout_width="190dp"
+            android:layout_width="852dp"
             android:layout_height="match_parent"
             android:text="@string/messageMainPage"
             android:textColor="#000000"
-            android:textSize="20dp"
+            android:textSize="30dp"
             android:typeface="serif" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:background="@drawable/minimal"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"/>
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

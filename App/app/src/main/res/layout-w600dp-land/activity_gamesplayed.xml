@@ -2,13 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <fragment
         android:id="@+id/fragmentGame"
-        class="com.example.connect4app.Activities.Game.GameDevelopment"
+        class="com.example.connect4app.Activities.SavedGames.AccessBDFragment"
+        android:layout_width="match_parent"
+        android:layout_height="210dp" />
+
+
+    <fragment
+        android:id="@+id/regFrag"
+        class="com.example.connect4app.Activities.SavedGames.DetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-        <!-- Especifico la classe a instanciar (ja que es estàtic el fragment)-->
+
 
 </LinearLayout>

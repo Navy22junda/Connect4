@@ -1,19 +1,18 @@
 package com.example.connect4app.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.connect4app.Activities.Game.ContainerFragments;
+import com.example.connect4app.Activities.Help.Help;
+import com.example.connect4app.Activities.SavedGames.GamesPlayed;
 import com.example.connect4app.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {

@@ -1,10 +1,12 @@
-package com.example.connect4app.Activities;
+package com.example.connect4app.Activities.Game;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -27,20 +29,25 @@ import com.example.connect4app.R;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class GameDevelopment extends Fragment implements GridView.OnItemClickListener {
 
+    public static int size, sizeGrill;
+    public static String name = "";
+    public static int temps = 50;
+    public static boolean time;
     static GridView gridView;
+    ImageAdapter imageAdapter;
     private Game game;
     private TextView textView;
     private Instant start = Instant.now();
     private int currentPlay = 0;
-
-    public static int size;
-    public static String name = "";
-    public static int temps = 50;
-    public static boolean time;
+    //Parcerable
+    private ArrayList<Position> playerCells = new ArrayList<>();
+    private ArrayList<Position> machineCells = new ArrayList<>();
 
 
     @Override
@@ -54,13 +61,10 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
         return inflater.inflate(R.layout.activity_game, container, false);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         super.onCreate(savedInstanceState);
-
-        int sizeGrill;
 
         //Trobar elements de la layout
         LinearLayout layoutTemps = getView().findViewById(R.id.linearLayout10);
@@ -71,7 +75,7 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         size = Integer.parseInt(preferences.getString("size", "5"));
         name = preferences.getString("alias", "None");
-        time = preferences.getBoolean("temps", false);
+        time = preferences.getBoolean("time", false);
 
         //Creació de TextView del Temps
         if (time) {
@@ -99,51 +103,43 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
                 throw new NullPointerException();
         }
 
-        //Ajustament de mides de les fitxes (tablet)
-        LogFrag frag = (LogFrag) getFragmentManager().findFragmentById(R.id.fragmentLog);
-        if (frag != null && frag.isInLayout()) {
-            ImageAdapter.fitxaSize = 72;
-            ImageAdapterInteractive.fitxaSize = 72;
-            ImageAdapter.width = 60;
-
-            //Passo dades al fragment
-            frag.setAlias(name);
-            frag.setMida(size);
-            frag.setTime(time);
-
-            if (sizeGrill == 25) {
-                ImageAdapterInteractive.width = 60;
-            } else {
-                ImageAdapterInteractive.width = 10;
-            }
-        }
+        //Ajustament de la graella segons layouts
+        landscapeGrillAjustment();
+        tabletGrillAjustment();
 
 
         ImageAdapter.setData(sizeGrill);
         ImageAdapterInteractive.setData(size);
 
 
-        if (savedInstanceState != null) {
-            Parcelable mGridview = savedInstanceState.getParcelable("gridview");
-            gridView = (GridView) mGridview;
-
-        } else {
-
-            //Inicialitzar celles
-            Cell[][] cell = new Cell[size][size];
-            for (int i = 0; i < (size); i++) {
-                for (int j = 0; j < (size); j++) {
-                    cell[i][j] = new Cell(false, 0);
-                }
+        //Inicialitzar celles
+        Cell[][] cell = new Cell[size][size];
+        for (int i = 0; i < (size); i++) {
+            for (int j = 0; j < (size); j++) {
+                cell[i][j] = new Cell(false, 0);
             }
-
-            game = new Game(new Board(size, cell), size, 100000, 0);
-
         }
+
+        game = new Game(new Board(size, cell), size, 100000, 0);
 
         //GridView de la parrilla
         gridView.setNumColumns(size);
-        gridView.setAdapter(new ImageAdapter(getActivity()));
+        imageAdapter = new ImageAdapter(getActivity());
+        gridView.setAdapter(imageAdapter);
+
+        if (savedInstanceState != null) {
+
+            playerCells = savedInstanceState.getParcelable("PlayerMoves");
+            machineCells = savedInstanceState.getParcelable("MachineMoves");
+
+            for (int i = 0; i < playerCells.size(); i++) {
+                Position currentPos = playerCells.get(i);
+                paintTile(currentPos, true);
+                currentPos = machineCells.get(i);
+                paintTile(currentPos, false);
+            }
+        }
+
 
         //GridView interactuable
         interactive.setNumColumns(size);
@@ -188,7 +184,6 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
                 flag = 1;
                 gameFinished();
             }
-
             paintTile(posPerson, true);
             game.toggleTurn();
 
@@ -199,8 +194,10 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
             } else {
                 Intent intent = new Intent(getActivity(), Results.class);
                 intent.putExtra("Winner", "Draw nobody wins");
-                int finaltime = (int) (temps - Duration.between(start, Instant.now()).getSeconds());
-                intent.putExtra("Time", finaltime);
+                if (time) {
+                    int finaltime = (int) (temps - Duration.between(start, Instant.now()).getSeconds());
+                    intent.putExtra("Time", finaltime);
+                }
                 view.getContext().startActivity(intent);
             }
             if (game.checkForFinish() && flag == 0) {
@@ -216,7 +213,7 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
                 textView.setText("Temps: " + (temps - timeElapsed.getSeconds()));
             }
 
-        }else {
+        } else {
             Toast.makeText(getActivity(), R.string.fullColumn, Toast.LENGTH_LONG).show();
         }
 
@@ -230,15 +227,17 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
         return (actualrow * size) - actualcolumn;
     }
 
-    private void gameFinished(){
+    private void gameFinished() {
         Intent intent = new Intent(getActivity(), Results.class);
         intent.putExtra("Winner", name);
-        int finaltime = (int) (temps - Duration.between(start, Instant.now()).getSeconds());
-        intent.putExtra("Time", finaltime);
+        if (time) {
+            int finaltime = (int) (temps - Duration.between(start, Instant.now()).getSeconds());
+            intent.putExtra("Time", finaltime);
+        }
         getContext().startActivity(intent);
     }
 
-    private void sendLogToFragment(Position position){
+    private void sendLogToFragment(Position position) {
         LogFrag frag = (LogFrag) getFragmentManager().findFragmentById(R.id.fragmentLog);
         if (frag != null && frag.isInLayout()) {
             Duration timeElapsed = Duration.between(start, Instant.now());
@@ -246,16 +245,57 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
         }
     }
 
-    private void paintTile(Position position, boolean flag){
+    private void paintTile(Position position, boolean flag) {
 
         int index = calculatePos(position.getRow(), position.getColumn());
         View curentTile = gridView.getChildAt(index);
-        if(flag){
+        if (flag) {
             curentTile.setBackgroundResource(R.drawable.fitxaroja);
-        }else {
+            playerCells.add(position); //List parcelable
+        } else {
             curentTile.setBackgroundResource(R.drawable.fitxagroga);
+            machineCells.add(position); //List parcelable
         }
     }
 
+    //Ajustament de mides de les fitxes (tablet)
+    public void tabletGrillAjustment(){
+        LogFrag frag = (LogFrag) getFragmentManager().findFragmentById(R.id.fragmentLog);
+        if (frag != null && frag.isInLayout()) {
+            ImageAdapter.fitxaSize = 72;
+            ImageAdapterInteractive.fitxaSize = 72;
+            ImageAdapter.width = 60;
+
+            //Passo dades al fragment
+            frag.setAlias(name);
+            frag.setMida(size);
+            frag.setTime(time);
+
+            if (sizeGrill == 25) {
+                ImageAdapterInteractive.width = 60;
+            } else {
+                ImageAdapterInteractive.width = 10;
+            }
+        }
+    }
+
+    //Ajustament midas de landscape
+    public void landscapeGrillAjustment(){
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ImageAdapter.fitxaSize = 0.5;
+            ImageAdapterInteractive.fitxaSize = 0;
+            ImageAdapter.width = 0;
+            ImageAdapterInteractive.width = 0;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("PlayerMoves", playerCells);
+        outState.putParcelableArrayList("MachineMoves", machineCells);
+
+    }
 }
 

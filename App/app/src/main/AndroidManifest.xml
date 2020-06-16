@@ -16,11 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Help"></activity>
+        <activity android:name=".Activities.Help.Help"></activity>
         <activity android:name=".Activities.Preferences"></activity>
-        <activity android:name=".Activities.Results"></activity>
-        <activity android:name=".Activities.GamesPlayed"></activity>
-        <activity android:name=".Activities.ContainerFragments"></activity>
+        <activity android:name=".Activities.Game.Results"></activity>
+        <activity android:name=".Activities.SavedGames.GamesPlayed"></activity>
+        <activity android:name=".Activities.Game.ContainerFragments"></activity>
+        <activity android:name=".Activities.SavedGames.DetailActivity"/>
     </application>
 
 </manifest>

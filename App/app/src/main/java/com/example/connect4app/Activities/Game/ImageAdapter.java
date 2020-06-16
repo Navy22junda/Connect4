@@ -1,13 +1,19 @@
-package com.example.connect4app.Activities;
+package com.example.connect4app.Activities.Game;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.connect4app.R;
+
+import java.util.ArrayList;
+
+import static android.view.ViewGroup.LayoutParams.*;
 
 public class ImageAdapter extends BaseAdapter {
 
@@ -43,18 +49,20 @@ public class ImageAdapter extends BaseAdapter {
             switch (totalSize) {
                 case (25):
                     imageView = new ImageView(mcontext);
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT+(fitxaSize*2)+width, 65+(fitxaSize)));
+                    imageView.setLayoutParams(new LayoutParams(MATCH_PARENT + (fitxaSize * 2) + width, 65+(fitxaSize)));
                     break;
 
                 case (36):
                     imageView = new ImageView(mcontext);
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 70+fitxaSize));
+                    imageView.setLayoutParams(new LayoutParams(MATCH_PARENT, 70+fitxaSize));
                     break;
 
                 case (49):
                     imageView = new ImageView(mcontext);
-                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 72+fitxaSize));
+                    imageView.setLayoutParams(new LayoutParams(MATCH_PARENT, 72+fitxaSize));
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + totalSize);
             }
         
         } else {
@@ -77,4 +85,5 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
             R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela, R.drawable.cela,
     };
+
 }

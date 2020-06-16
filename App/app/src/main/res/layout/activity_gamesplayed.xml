@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragmentGame"
-        class="com.example.connect4app.Activities.AccessFragment"
+        class="com.example.connect4app.Activities.SavedGames.AccessBDFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

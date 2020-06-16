@@ -8,14 +8,7 @@
 
     <fragment
         android:id="@+id/fragmentGame"
-        class="com.example.connect4app.Activities.GameDevelopment"
-        android:layout_width="252dp"
+        class="com.example.connect4app.Activities.Game.GameDevelopment"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <fragment
-        android:id="@+id/fragmentLog"
-        class="com.example.connect4app.Activities.LogFrag"
-        android:layout_width="473dp"
-        android:layout_height="match_parent" />
-
 </LinearLayout>

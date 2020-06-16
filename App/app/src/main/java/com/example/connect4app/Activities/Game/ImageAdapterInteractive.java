@@ -1,4 +1,4 @@
-package com.example.connect4app.Activities;
+package com.example.connect4app.Activities.Game;
 
 import android.content.Context;
 import android.view.View;

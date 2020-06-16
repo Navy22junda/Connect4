@@ -1,4 +1,4 @@
-package com.example.connect4app.Activities;
+package com.example.connect4app.Activities.Game;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

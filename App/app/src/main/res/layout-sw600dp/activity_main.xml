@@ -31,6 +31,13 @@
             android:text="@string/helpButton" />
 
         <Button
+            android:id="@+id/buttonGames"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:text="@string/gamesButton" />
+
+        <Button
             android:id="@+id/buttonExit"
             android:layout_width="match_parent"
             android:layout_height="70dp"

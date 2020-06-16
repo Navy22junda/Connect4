@@ -1,6 +1,9 @@
 package com.example.connect4app.Connect4Logic;
 
-public class Position {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Position implements Parcelable {
 
     private final int row;
     private final int column;
@@ -44,4 +47,26 @@ public class Position {
             return Math.abs(position1.column - position2.column);
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(row);
+        dest.writeInt(column);
+    }
+
+    public static final Parcelable.Creator<Position> CREATOR = new Parcelable.Creator<Position>() {
+        @Override
+        public Position createFromParcel(Parcel source) {
+            return new Position(source.readInt(),source.readInt());
+        }
+
+        public Position[] newArray(int size) {
+            return new Position[size];
+        }
+    };
 }

@@ -1,4 +1,4 @@
-package com.example.connect4app.Activities;
+package com.example.connect4app.Activities.Help;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;

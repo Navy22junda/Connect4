@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/detailFrag"
-        class="com.example.connect4app.Activities.DetailFragment"
+        class="com.example.connect4app.Activities.SavedGames.DetailFragment"
         android:layout_width="match_parent"
         android:layout_height="400dp" />
 
