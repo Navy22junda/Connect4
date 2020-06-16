@@ -283,7 +283,7 @@ public class GameDevelopment extends Fragment implements GridView.OnItemClickLis
     public void landscapeGrillAjustment(){
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ImageAdapter.fitxaSize = 0.5;
+            ImageAdapter.fitxaSize = 0;
             ImageAdapterInteractive.fitxaSize = 0;
             ImageAdapter.width = 0;
             ImageAdapterInteractive.width = 0;
